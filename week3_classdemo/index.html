@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+   
+
+    <body>
+        <p id="socketData">how do u feel?</p>
+
+        <script>
+            const socket = new WebSocket("ws://localhost:1880/chat");
+            socket.addEventListener("open", confirmOpen);
+            socket.addEventListener("message", handleMessage);
+            socket.addEventListener("message", toggleColor);
+
+            const greenTexts = [];
+
+            function confirmOpen () {
+                document.body.style.backgroundColor = "blue";
+            }
+
+            function handleMessage (event) {
+                document.getElementById("socketData").innerHTML = event.data;
+            }
+
+            function toggleColor(event) {
+                if (event.data == "red") {
+                    document.body.style.backgroundColor = "red";
+                    document.getElementById("socketData").innerHTML = "i'm spinning out of control.";
+                } 
+                if (event.data == "green") {
+                    document.body.style.backgroundColor = "green";
+                    document.getElementById("socketData").innerHTML = "i've never felt so alive.";
+                }
+            }
+        </script>
+
+    </body>
+
+</html>
