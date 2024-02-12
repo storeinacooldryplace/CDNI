@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<head>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+
+<body>
+    <h3 id="title">ITP kitchen traffic checker</h3>
+    <p id="socketData"></p>
+
+    <script>
+        const socket = new WebSocket("ws://localhost:1880/chat");
+        socket.addEventListener("open", confirmOpen);
+        socket.addEventListener("message", handleMessage);
+        socket.addEventListener("message", toggleColor);
+
+        let sensorInput;
+
+        function confirmOpen() {
+            document.body.style.backgroundColor = "blue";
+        }
+
+        function handleMessage(event) {
+            sensorInput = event.data;
+        }
+
+        function toggleColor(event) {
+            if (event.data == "someone") {
+                document.body.style.backgroundColor = "red";
+                document.getElementById("socketData").innerHTML = "someone is in the kitchen.";
+            }
+            else if (event.data == "empty") {
+                document.body.style.backgroundColor = "green";
+                document.getElementById("socketData").innerHTML = "kitchen empty.";
+            }
+        }
+    </script>
+
+</body>
+
+</html>
